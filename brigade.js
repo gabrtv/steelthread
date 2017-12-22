@@ -70,7 +70,7 @@ function dockerJobRunner(config, d) {
         "echo waiting && sleep 20",
         "cd /src/rating-web/",
         `docker login ${config.get("acrServer")} -u ${config.get("acrUsername")} -p ${config.get("acrPassword")}`,
-        `docker build --build-arg BUILD_DATE='1/1/2017 5:00' --build-arg IMAGE_TAG_REF=${config.get("imageTag")} --build-arg VCS_REF=${config.get("gitSHA")} -t ${config.get("apiImage")} .`,
+        `docker build --build-arg BUILD_DATE='1/1/2017 5:00' --build-arg IMAGE_TAG_REF=${config.get("imageTag")} --build-arg VCS_REF=${config.get("gitSHA")} -t ${config.get("webImage")} .`,
         `docker tag ${config.get("webImage")} ${config.get("webACRImage")}:${config.get("imageTag")}`,
         `docker push ${config.get("webACRImage")}:${config.get("imageTag")}`,
         "killall dockerd"
