@@ -21,6 +21,6 @@ RUN npm install
 
 COPY . /app
 
-CMD [ "npm", "run dev" ]
+CMD [ "npm", "run", "dev" ]
 
 EXPOSE 8080
