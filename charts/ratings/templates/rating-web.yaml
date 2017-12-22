@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: "{{.Values.web.deployment}}"
+spec:
+  replicas: {{ default 1 .Values.web.replicas }}
+  template:
+    metadata:
+      labels:
+        app: "{{.Values.web.name}}"
+        version: "{{.Values.web.versionLabel}}"
+    spec:
+      containers:
+      - name: "{{.Values.web.name}}"
+        image: "{{.Values.web.image}}:{{.Values.web.imageTag}}"
+        env:
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: KUBE_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: KUBE_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        resources:
+          requests:
+            cpu: "100m"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
