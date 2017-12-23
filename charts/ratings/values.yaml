@@ -7,6 +7,7 @@ web:
   replicas: 1
   image: "briaracr.azurecr.io/chzbrgr71/rating-web"
   imageTag: "latest"
+  serviceType: "LoadBalancer"
 api:
   name: rating-api
   deployment: rating-api-prod
@@ -14,3 +15,4 @@ api:
   replicas: 4
   image: "briaracr.azurecr.io/chzbrgr71/rating-api"
   imageTag: "latest"
+  serviceType: "ClusterIP"
