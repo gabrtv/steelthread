@@ -1,0 +1,11 @@
+{
+    "title": "Hero Rating",
+    "headerImage":"static/img/justice.png",
+    "subtitle": "A rating app for the Justice League Heroes",
+    "leaderboard": "View Leaderboard",
+    "rating": "Rate Heroes",
+    "createInfo": "created by the Microsoft OSS Intelligent Cloud Black Belt team",
+    "githubRepo": "https://github.com/chzbrgr71/steelthread",
+    "logoImage":"static/img/msft_logo.png",
+    "azureLogo":"static/img/azure_logo_sm.png"
+  }
