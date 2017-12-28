@@ -1,0 +1,31 @@
+[
+    {
+        "name": "Superman",
+        "uid": 1,
+        "img": "/static/superman.png",
+        "description": "The man of steel",
+        "aliases": "Clark Kent, Son of Jor-el"
+    },
+    {
+        "name": "Wonder Woman",
+        "uid": 2,
+        "img": "/static/wonderwoman.png",
+        "description": "Diana of Themyscira",
+        "aliases": "Diana Prince, The Goddess of Truth"
+    },
+    {
+        "name": "Batman",
+        "uid": 3,
+        "img": "/static/batman.png",
+        "description": "The Dark Knight",
+        "aliases": "Bruce Wayne, The Caped Crusader"
+    },
+    {
+        "name": "Flash",
+        "uid": 4,
+        "img": "/static/flash.png",
+        "description": "The Flash",
+        "aliases": "Barry Allen, Parallax"
+    }
+
+]
