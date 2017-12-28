@@ -1,3 +1,4 @@
 **/.DS_Store
 secret.yaml
 brig-project.yaml
+package-lock.json

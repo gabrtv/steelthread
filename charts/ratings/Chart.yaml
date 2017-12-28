@@ -1,0 +1,7 @@
+name: ratings
+home: https://github.com/chzbrgr71/steelthread
+version: 1.0
+description: Simple web app for demonstrating draft,helm,brigade,kashti,AKS,ACR
+maintainers: 
+  - name: chzbrgr71
+    email: brianisrunning@gmail.com
