@@ -23,6 +23,7 @@ RUN npm install
 
 COPY . /app
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "staging" ]
+# CMD [ "MONGODB_URI='mongodb://localhost:27017/rating' node ./bin/www" ]
 
 EXPOSE 3000
