@@ -16,3 +16,10 @@ api:
   image: "chzbrgr71/rating-api"
   imageTag: "latest"
   serviceType: "ClusterIP"
+mongo:
+  name: mongo
+  deployment: mongo
+  versionLabel: prod
+  image: "sonofjorel/mongohero"
+  imageTag: "v1"
+  serviceType: "ClusterIP"
