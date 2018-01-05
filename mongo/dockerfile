@@ -1,0 +1,6 @@
+FROM mongo
+
+COPY ["heroes.json /heroes.json", "ratings.json /ratings.json"]
+CMD ["mongoimport --host mongodb --db webratings --collection heroes --type json --file /heroes.json --jsonArray", "mongoimport --host mongodb --db webratings --collection ratings --type json --file /ratings.json --jsonArray"]
+
+EXPOSE 27017
