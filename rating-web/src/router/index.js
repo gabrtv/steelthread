@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '../components/Home'
 import Rating from '../components/Rating'
 import Leaderboard from '../components/Leaderboard'
+import Footer from '../components/Footer'
 
 Vue.use(Router)
 
@@ -11,17 +12,17 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      components: { main: Home, footer: Footer}
     },
     {
       path: '/rating',
       name: 'Rating',
-      component: Rating
+      components: { main: Rating, footer: Footer} 
     },
     {
       path: '/leaderboard',
       name: 'Leaderboard',
-      component: Leaderboard
+      components: { main: Leaderboard, footer: Footer}
     }
   ]
 })

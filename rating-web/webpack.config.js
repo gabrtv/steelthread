@@ -65,13 +65,13 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        MONGODB_URI: JSON.stringify(process.env.MONGODB_URI),
-        HEROES: JSON.stringify(process.env.HEROES)
+        HEROES: JSON.stringify(process.env.HEROES),
+        SITE: JSON.stringify(process.env.SITE),
+        API: JSON.stringify(process.env.API)
       }
     })
   ]
 }
-console.log(process.env.MONGODB_URI)
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
@@ -79,8 +79,9 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
-        MONGODB_URI: JSON.stringify(process.env.MONGODB_URI),
-        HEROES: JSON.stringify(process.env.HEROES)
+        HEROES: JSON.stringify(process.env.HEROES),
+        SITE: JSON.stringify(process.env.SITE),
+        API: JSON.stringify(process.env.API)
       }
     }),
     new webpack.optimize.UglifyJsPlugin({

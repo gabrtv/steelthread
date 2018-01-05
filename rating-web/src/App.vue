@@ -1,6 +1,9 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div class="container-fluid">
+    <div class="app">
+      <router-view name="main"></router-view>
+      <router-view name="footer"></router-view>
+    </div>
   </div>
 </template>
 
@@ -12,10 +15,13 @@ export default {
 
 
 <style lang="scss">
-  @import url('https://fonts.googleapis.com/css?family=Bangers|Permanent+Marker');
+  @import url('https://fonts.googleapis.com/css?family=Bangers|Permanent+Marker|Graduate:400,700');
 
   body {
-    background-color: rgb(56, 61, 72);
+    background-color: #999;
+    --azure-blue:#0071C5;
+    --msft-green:#4E7200;
+    --msft-orange:#C72B00;
   }
 
   .container-fluid {
@@ -30,10 +36,18 @@ export default {
     -moz-osx-font-smoothing: grayscale;
   }
 
+  .credits{
+    font-family: 'Graduate', sans-serif;
+    font-size: 12px;
+  }
+  .footspace{
+    margin-top: 90px;
+    border-color: #ccc;
+  }
 
   .app {
     width: 85%;
-    color: #2c3e50;
+    color: #fff;
     margin-top: 5%;
     text-align: left;
   }
@@ -49,27 +63,18 @@ export default {
     text-align: left;
   }
 
+
+// .at-related
   .at-row {
     margin: 10px;
   }
 
-  .at-card {
-    border-radius: 4px;
-    width: 228px;
-    box-shadow: 2px 4px 6px #000 !important;
-  }
-
   .at-card__head {
-    height: 60px;
-    padding: 6px 26px;
     background-color: #2d2d2d;
-    border-radius: 4px 4px 0 0;
   }
 
   .at-card__body {
-    height: 220px;
     background-color: #444;
-    padding: 20px 0px 0px 0px;
   }
 
   .at-rate {
@@ -85,6 +90,58 @@ export default {
     text-shadow: none;
   }
 
+  .at-btn--primary:hover{
+    color:var(--azure-blue);
+    border: 2px solid var(--azure-blue);
+  }
+  .at-btn--success:hover{
+    color:var(--msft-green);
+    border: 2px solid var(--msft-green);
+  }
+  .at-btn--info:hover{
+    color:var(--msft-orange);
+    border: 2px solid var(--msft-orange);
+  }
+  
+  .at-btn{
+    color:#FFF;
+    border: 2px solid #FFF;
+    border-radius: 0px;
+  }
+
+  .at-btn__text{
+    font-family: 'Bangers', cursive;
+    font-size: 22px;
+    font-weight: 100;
+    padding-left: 2px;
+  }
+
+  .at-btn__icon{
+    font-size: 20px;
+  }
+// end .at-related
+
+
+// rate-related
+  .rate-submit{
+    margin-top:40px;
+  }
+  .rate-submit .at-btn__text{
+    font-size: 36px;
+  }
+  .rate-submit .at-btn__icon{
+    font-size: 36px;
+  }
+  .rate-submit.at-btn--default:hover{
+    color:var(--msft-green);
+    border-color: var(--msft-green);
+  }
+  .mid-btn{
+    width: 240px;
+  }
+// end rate-related
+
+// super-related
   .super-justice {
     height: 240px;
   }
@@ -96,9 +153,9 @@ export default {
   }
 
   .super-image {
-    margin: 22px 0px 0px 22px;
-    -webkit-filter: drop-shadow(3px 3px 3px #000);
-    filter: drop-shadow(3px 3px 3px #000);
+    margin: 0px 0px 0px 18px;
+    -webkit-filter: drop-shadow(3px 3px 3px #111);
+    filter: drop-shadow(3px 3px 3px #111);
     width: 180px;
   }
 
@@ -111,32 +168,12 @@ export default {
   }
 
   .super-rate-foot {
-    border-top: 1px solid #AAA;
-    margin-top: 24px;
     text-align: center;
-    width: 228px;
-    height: 44px;
-    background-color: #615b44;
-    border-radius: 0 0 4px 4px;
   }
 
   .super-vote {
     padding: 80px;
   }
-
-  .super-vote button {
-    background-color: #2d2d2d;
-    font-family: 'Bangers', cursive;
-    color: #fff;
-  }
-
-  .super-vote button:hover {
-    background-color: #fff;
-    color: rgb(29, 179, 79);
-  }
-
-  .at-btn--large .at-btn__text {
-    font-size: 36px;
-  }
-
+// end super-related
+  
 </style>

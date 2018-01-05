@@ -9,6 +9,23 @@ const mongoose = require('mongoose');
 
 
 var app = express();
+console.log('Current environment is: ', process.env.NODE_ENV);
+if (process.env.NODE_ENV != "production") {
+// Add headers
+  app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    next();
+  });
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +51,8 @@ var index = require('./routes/index');
 
 app.use('/', index);
 app.use('/api', mongo);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

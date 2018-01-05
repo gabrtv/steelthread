@@ -29,9 +29,26 @@ router.post('/hero', function(req, res, next){
   }).catch(next);
 });
 
-// /* POST rating array */
-// router.post('/rate', function(req, res, next){
-  
-// });
+/* POST rating array */
+router.post('/rate', function(req, res, next){
+  var input = req.body;
+  console.log(input);
+  var ratings = [];
+  var ip = input.userIp;
+  for (var i = 0, len = input.ratings.length; i < len; i++) {
+    var rate = new Rate({
+      rating:input.ratings[i].rating,
+      raterIp:ip,
+      heroRated:input.ratings[i].id
+    });
+    rate.save().then(function(rate){
+      ratings.push(rate);
+    });
+  }
+  var response = new jsonResponse('ok', 200, ratings);
+  res.json(response).status(response.status);
+});
+
+
 
 module.exports = router;
