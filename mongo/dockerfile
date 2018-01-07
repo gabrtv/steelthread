@@ -1,14 +1,7 @@
 FROM mongo
 
-WORKDIR /data
-
-COPY ./heroes.json /data/heroes.json
-COPY ./ratings.json /data/ratings.json
-
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD "mongod" 
-RUN mongoimport --host localhost --db webratings --collection heroes --type json --file ./heroes.json --jsonArray
-# CMD mongoimport --db webratings --collection ratings --type json --file ./ratings.json --jsonArray
-#  "mongoimport --host mongodb --db webratings --collection ratings --type json --file /data/ratings.json --jsonArray"
+COPY ./heroes.json /heroes.json
+COPY ./ratings.json /ratings.json
+COPY ./import.sh /import.sh
 
 EXPOSE 27017
