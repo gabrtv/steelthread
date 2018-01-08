@@ -22,4 +22,4 @@ mongo:
   versionLabel: prod
   image: "chzbrgr71/mongohero"
   imageTag: "v6"
-  serviceType: "ClusterIP"
+  serviceType: "LoadBalancer"

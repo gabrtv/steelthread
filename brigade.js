@@ -9,11 +9,13 @@ events.on("push", (brigadeEvent, project) => {
     brigConfig.set("acrUsername", project.secrets.acrUsername)
     brigConfig.set("acrPassword", project.secrets.acrPassword)
     brigConfig.set("webImage", "chzbrgr71/rating-web")
+    brigConfig.set("apiImage", "chzbrgr71/rating-api")
     brigConfig.set("gitSHA", brigadeEvent.commit.substr(0,7))
     brigConfig.set("eventType", brigadeEvent.type)
     brigConfig.set("branch", getBranch(gitPayload))
     brigConfig.set("imageTag", `${brigConfig.get("branch")}-${brigConfig.get("gitSHA")}`)
     brigConfig.set("webACRImage", `${brigConfig.get("acrServer")}/${brigConfig.get("webImage")}`)
+    brigConfig.set("apiACRImage", `${brigConfig.get("acrServer")}/${brigConfig.get("apiImage")}`)
     
     console.log(`==> gitHub webook (${brigConfig.get("branch")}) with commit ID ${brigConfig.get("gitSHA")}`)
     
@@ -37,7 +39,6 @@ events.on("after", (event, proj) => {
 
     var slack = new Job("slack-notify", "technosophos/slack-notify:latest", ["/slack-notify"])
     slack.storage.enabled = false
-    slack.host = "aci-connector"
     slack.env = {
       SLACK_WEBHOOK: proj.secrets.slackWebhook,
       SLACK_USERNAME: "brigade-demo",
@@ -47,19 +48,6 @@ events.on("after", (event, proj) => {
 	slack.run()
     
 })
-
-function goJobRunner(g) {
-    // define job for golang work
-    g.storage.enabled = false
-    g.image = "golang:1.7.5"
-    g.host = "aci-connector"
-    g.tasks = [
-        "cd /src/",
-        "go get github.com/gorilla/mux",
-        "cd smackapi && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o smackapi",
-        "go test -v"
-    ]
-}
 
 function dockerJobRunner(config, d) {
     d.storage.enabled = false
@@ -71,8 +59,12 @@ function dockerJobRunner(config, d) {
         "cd /src/rating-web/",
         `docker login ${config.get("acrServer")} -u ${config.get("acrUsername")} -p ${config.get("acrPassword")}`,
         `docker build --build-arg BUILD_DATE='1/1/2017 5:00' --build-arg IMAGE_TAG_REF=${config.get("imageTag")} --build-arg VCS_REF=${config.get("gitSHA")} -t ${config.get("webImage")} .`,
+        "cd ../rating-api/",
+        `docker build --build-arg BUILD_DATE='1/1/2017 5:00' --build-arg IMAGE_TAG_REF=${config.get("imageTag")} --build-arg VCS_REF=${config.get("gitSHA")} -t ${config.get("apiImage")} .`,
         `docker tag ${config.get("webImage")} ${config.get("webACRImage")}:${config.get("imageTag")}`,
+        `docker tag ${config.get("apiImage")} ${config.get("apiACRImage")}:${config.get("imageTag")}`,
         `docker push ${config.get("webACRImage")}:${config.get("imageTag")}`,
+        `docker push ${config.get("apiACRImage")}:${config.get("imageTag")}`,
         "killall dockerd"
     ]
 }

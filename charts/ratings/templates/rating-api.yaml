@@ -15,19 +15,7 @@ spec:
         image: "{{.Values.api.image}}:{{.Values.api.imageTag}}"
         env:
         - name: MONGODB_URI
-          value: mongodb://mongo:27017/webratings
-        - name: KUBE_NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        - name: KUBE_POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: KUBE_POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
+          value: mongodb://mongo.default.svc.cluster.local:27017/webratings
         resources:
           requests:
             cpu: "100m"
