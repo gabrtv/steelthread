@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: "{{.Values.api.deployment}}"
 spec:
-  replicas: {{ default 3 .Values.api.replicas }}
+  replicas: {{ default 1 .Values.api.replicas }}
   template:
     metadata:
       labels:
@@ -15,7 +15,7 @@ spec:
         image: "{{.Values.api.image}}:{{.Values.api.imageTag}}"
         env:
         - name: MONGODB_URI
-          value: mongodb://mongo.default.svc.cluster.local:27017/webratings
+          value: mongodb://mongo:27017/webratings
         - name: KUBE_NODE_NAME
           valueFrom:
             fieldRef:

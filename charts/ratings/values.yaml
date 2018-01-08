@@ -12,10 +12,10 @@ api:
   name: rating-api
   deployment: rating-api-prod
   versionLabel: prod
-  replicas: 4
+  replicas: 1
   image: "chzbrgr71/rating-api"
   imageTag: "v6"
-  serviceType: "ClusterIP"
+  serviceType: "LoadBalancer"
 mongo:
   name: mongo
   deployment: mongo
