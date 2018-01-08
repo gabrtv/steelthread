@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:carbon
 
 ARG VCS_REF
 ARG BUILD_DATE
@@ -17,12 +17,12 @@ ENV GIT_SHA $VCS_REF
 ENV IMAGE_BUILD_DATE $BUILD_DATE
 ENV IMAGE_TAG $IMAGE_TAG_REF
 
-WORKDIR /app
-COPY package.json /app
+WORKDIR /usr/src/app
+COPY package*.json ./
 RUN npm install
 
-COPY . /app
-
-CMD [ "npm", "run", "staging" ]
+COPY . .
 
 EXPOSE 8080
+
+CMD [ "npm", "run", "staging" ]

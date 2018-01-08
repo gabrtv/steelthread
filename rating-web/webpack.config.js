@@ -53,6 +53,11 @@ module.exports = {
     }
   },
   devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+    host: '0.0.0.0',
+    port: 8080,
     noInfo: true,
     historyApiFallback: {
       index: '/dist/'
