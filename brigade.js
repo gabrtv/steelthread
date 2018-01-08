@@ -21,7 +21,9 @@ events.on("push", (brigadeEvent, project) => {
     
     // setup brigade jobs
     var docker = new Job("job-runner-docker")
+    var helm = new Job("job-runner-helm")
     dockerJobRunner(brigConfig, docker)
+    helmJobRunner(brigConfig, helm, "prod")
     
     // start pipeline
     console.log(`==> starting pipeline for docker image: ${brigConfig.get("webACRImage")}:${brigConfig.get("imageTag")}`)
@@ -74,7 +76,7 @@ function helmJobRunner (config, h, deployType) {
     h.image = "lachlanevenson/k8s-helm:2.7.0"
     h.tasks = [
         "cd /src/",
-        `helm upgrade --install smackapi-${deployType} ./charts/smackapi --set api.image=${config.get("webACRImage")} --set api.imageTag=${config.get("imageTag")} --set api.deployment=smackapi-${deployType} --set api.versionLabel=${deployType}`
+        `helm upgrade --install ratings ./charts/ratings --set api.image=${config.get("apiACRImage")} --set api.imageTag=${config.get("imageTag")} --set web.image=${config.get("webACRImage")} --set web.imageTag=${config.get("imageTag")}`
     ]
 }
 
