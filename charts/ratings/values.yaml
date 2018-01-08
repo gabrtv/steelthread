@@ -7,15 +7,15 @@ web:
   replicas: 1
   image: "chzbrgr71/rating-web"
   imageTag: "v6"
-  serviceType: "LoadBalancer"
+  serviceType: "ClusterIP"
 api:
   name: rating-api
   deployment: rating-api-prod
   versionLabel: prod
-  replicas: 1
+  replicas: 3
   image: "chzbrgr71/rating-api"
   imageTag: "v6"
-  serviceType: "LoadBalancer"
+  serviceType: "ClusterIP"
 mongo:
   name: mongo
   deployment: mongo
