@@ -23,7 +23,6 @@
     </div>
     <div class="row at-row flex-center flex-middle">
       <div class="col-lg-24">
-        <h1>Current Image: {{imageTag}}
       </div>
       </div>
   </section>
@@ -37,7 +36,6 @@ export default {
     return {
       headerImage: "",
       subtitle: "",
-      imageTag:"",
       errors: []
     };
   },
@@ -49,7 +47,6 @@ export default {
         document.title = page.title
         this.headerImage = page.headerImage
         this.subtitle = page.subtitle
-        this.imageTag = process.env.IMAGE_TAG
       })
       .catch(e => {
         this.errors.push(e);
