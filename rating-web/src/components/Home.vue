@@ -21,6 +21,11 @@
       <div class="col-lg-3">
       </div>
     </div>
+    <div class="row at-row flex-center flex-middle">
+      <div class="col-lg-24">
+        <h1>Current Image: {{imageTag}}
+      </div>
+      </div>
   </section>
 </template>
 
