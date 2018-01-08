@@ -32,6 +32,7 @@ export default {
     return {
       headerImage: "",
       subtitle: "",
+      imageTag:"",
       errors: []
     };
   },
@@ -39,10 +40,11 @@ export default {
     axios
       .get(process.env.SITE)
       .then(response => {
-        var page = response.data.pages.Home;
-        document.title = page.title;
-        this.headerImage = page.headerImage;
-        this.subtitle = page.subtitle;
+        var page = response.data.pages.Home
+        document.title = page.title
+        this.headerImage = page.headerImage
+        this.subtitle = page.subtitle
+        this.imageTag = process.env.IMAGE_TAG
       })
       .catch(e => {
         this.errors.push(e);
