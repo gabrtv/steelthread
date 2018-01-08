@@ -6,20 +6,20 @@ web:
   versionLabel: prod
   replicas: 1
   image: "chzbrgr71/rating-web"
-  imageTag: "v4"
+  imageTag: "v6"
   serviceType: "LoadBalancer"
 api:
   name: rating-api
   deployment: rating-api-prod
   versionLabel: prod
-  replicas: 4
+  replicas: 1
   image: "chzbrgr71/rating-api"
-  imageTag: "v4"
-  serviceType: "ClusterIP"
+  imageTag: "v6"
+  serviceType: "LoadBalancer"
 mongo:
   name: mongo
   deployment: mongo
   versionLabel: prod
   image: "chzbrgr71/mongohero"
-  imageTag: "v4"
-  serviceType: "ClusterIP"
+  imageTag: "v6"
+  serviceType: "LoadBalancer"

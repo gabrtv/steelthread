@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: "{{.Values.api.deployment}}"
 spec:
-  replicas: {{ default 3 .Values.api.replicas }}
+  replicas: {{ default 1 .Values.api.replicas }}
   template:
     metadata:
       labels:
@@ -14,18 +14,8 @@ spec:
       - name: "{{.Values.api.name}}"
         image: "{{.Values.api.image}}:{{.Values.api.imageTag}}"
         env:
-        - name: KUBE_NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        - name: KUBE_POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: KUBE_POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
+        - name: MONGODB_URI
+          value: mongodb://mongo.default.svc.cluster.local:27017/webratings
         resources:
           requests:
             cpu: "100m"

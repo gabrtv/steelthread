@@ -16,7 +16,6 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 27017
-          name: mongo-port
 ---
 apiVersion: v1
 kind: Service

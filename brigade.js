@@ -9,22 +9,28 @@ events.on("push", (brigadeEvent, project) => {
     brigConfig.set("acrUsername", project.secrets.acrUsername)
     brigConfig.set("acrPassword", project.secrets.acrPassword)
     brigConfig.set("webImage", "chzbrgr71/rating-web")
+    brigConfig.set("apiImage", "chzbrgr71/rating-api")
     brigConfig.set("gitSHA", brigadeEvent.commit.substr(0,7))
     brigConfig.set("eventType", brigadeEvent.type)
     brigConfig.set("branch", getBranch(gitPayload))
     brigConfig.set("imageTag", `${brigConfig.get("branch")}-${brigConfig.get("gitSHA")}`)
     brigConfig.set("webACRImage", `${brigConfig.get("acrServer")}/${brigConfig.get("webImage")}`)
+    brigConfig.set("apiACRImage", `${brigConfig.get("acrServer")}/${brigConfig.get("apiImage")}`)
     
     console.log(`==> gitHub webook (${brigConfig.get("branch")}) with commit ID ${brigConfig.get("gitSHA")}`)
     
     // setup brigade jobs
     var docker = new Job("job-runner-docker")
+    var helm = new Job("job-runner-helm")
     dockerJobRunner(brigConfig, docker)
+    helmJobRunner(brigConfig, helm, "prod")
     
     // start pipeline
     console.log(`==> starting pipeline for docker image: ${brigConfig.get("webACRImage")}:${brigConfig.get("imageTag")}`)
+    console.log(`==> and pipeline for docker image: ${brigConfig.get("apiACRImage")}:${brigConfig.get("imageTag")}`)
     var pipeline = new Group()
     pipeline.add(docker)
+    pipeline.add(helm)
     if (brigConfig.get("branch") == "master") {
         pipeline.runEach()
     } else {
@@ -37,7 +43,6 @@ events.on("after", (event, proj) => {
 
     var slack = new Job("slack-notify", "technosophos/slack-notify:latest", ["/slack-notify"])
     slack.storage.enabled = false
-    slack.host = "aci-connector"
     slack.env = {
       SLACK_WEBHOOK: proj.secrets.slackWebhook,
       SLACK_USERNAME: "brigade-demo",
@@ -47,19 +52,6 @@ events.on("after", (event, proj) => {
 	slack.run()
     
 })
-
-function goJobRunner(g) {
-    // define job for golang work
-    g.storage.enabled = false
-    g.image = "golang:1.7.5"
-    g.host = "aci-connector"
-    g.tasks = [
-        "cd /src/",
-        "go get github.com/gorilla/mux",
-        "cd smackapi && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o smackapi",
-        "go test -v"
-    ]
-}
 
 function dockerJobRunner(config, d) {
     d.storage.enabled = false
@@ -71,8 +63,12 @@ function dockerJobRunner(config, d) {
         "cd /src/rating-web/",
         `docker login ${config.get("acrServer")} -u ${config.get("acrUsername")} -p ${config.get("acrPassword")}`,
         `docker build --build-arg BUILD_DATE='1/1/2017 5:00' --build-arg IMAGE_TAG_REF=${config.get("imageTag")} --build-arg VCS_REF=${config.get("gitSHA")} -t ${config.get("webImage")} .`,
+        "cd ../rating-api/",
+        `docker build --build-arg BUILD_DATE='1/1/2017 5:00' --build-arg IMAGE_TAG_REF=${config.get("imageTag")} --build-arg VCS_REF=${config.get("gitSHA")} -t ${config.get("apiImage")} .`,
         `docker tag ${config.get("webImage")} ${config.get("webACRImage")}:${config.get("imageTag")}`,
+        `docker tag ${config.get("apiImage")} ${config.get("apiACRImage")}:${config.get("imageTag")}`,
         `docker push ${config.get("webACRImage")}:${config.get("imageTag")}`,
+        `docker push ${config.get("apiACRImage")}:${config.get("imageTag")}`,
         "killall dockerd"
     ]
 }
@@ -82,7 +78,7 @@ function helmJobRunner (config, h, deployType) {
     h.image = "lachlanevenson/k8s-helm:2.7.0"
     h.tasks = [
         "cd /src/",
-        `helm upgrade --install smackapi-${deployType} ./charts/smackapi --set api.image=${config.get("webACRImage")} --set api.imageTag=${config.get("imageTag")} --set api.deployment=smackapi-${deployType} --set api.versionLabel=${deployType}`
+        `helm upgrade --install ratings ./charts/ratings --set api.image=${config.get("apiACRImage")} --set api.imageTag=${config.get("imageTag")} --set web.image=${config.get("webACRImage")} --set web.imageTag=${config.get("imageTag")}`
     ]
 }
 
